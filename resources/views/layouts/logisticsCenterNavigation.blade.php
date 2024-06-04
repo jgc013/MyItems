@@ -16,7 +16,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('logisticsCenterX.reports', ['logisticsCenter' => $logisticsCenter])" :active="request()->routeIs('logisticsCenterX.reports')" :active="request()->routeIs('logisticsCenterX.newReport')">
+                    <x-nav-link :href="route('logisticsCenterX.reports', ['logisticsCenter' => $logisticsCenter])" :active="request()->routeIs('logisticsCenterX.reports') || request()->routeIs('logisticsCenterX.newReport')">
                         {{ __('Reports') }}
                     </x-nav-link>
                 </div>
