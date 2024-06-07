@@ -66,6 +66,6 @@ class LogisticsCenter extends Model
     public static function checkDuplicate($logisticsCenterName)
 
     {
-        return static::where("name", $logisticsCenterName)->where("id", Auth::user()->organization->id)->first();
+        return static::where("name", $logisticsCenterName)->where("id_organization", Auth::user()->organization->id)->first();
     }
 }
