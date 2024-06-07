@@ -29,7 +29,7 @@
         <div style="overflow: auto; height: 49rem;">
 
         @if (Auth::user()->rol == 'admin')
-            <div class="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 p-4 h-full">
+            <div class="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 p-4">
 
                 @foreach ($items as $key => $item)
                     <div
