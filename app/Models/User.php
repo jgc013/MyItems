@@ -75,9 +75,10 @@ class User extends Authenticatable
         DB::beginTransaction();
 
         try {
+            
             // Crea la organización
             $organization = Organization::create([
-                'organizationName' => $organizationName,
+                'organizationName' => strtolower($organizationName),
             ]);
 
             // Crea el usuario asignando el ID de la organización
