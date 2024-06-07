@@ -16,20 +16,20 @@ class LogisticsCenterXController extends Controller
     public function init($id)
     {
         $result = [];
-        
+
         $logisticsCenter = LogisticsCenter::where("id", $id)->first();
 
         $lastMonth = Carbon::now()->subMonth();
 
         $users = $logisticsCenter->users;
         foreach ($users as $user) {
-            $movements =  Movement::where("id_user", $user->id)->get();
+            $movements = Movement::where("id_user", $user->id)->get();
             foreach ($movements as $movement) {
                 if ($movement->created_at >= $lastMonth) {
                     if ($movement->type == "in") {
                         if (isset($result[$user->id]["in"])) {
 
-                            $result[$user->id]["in"] = $movement->amount +  $result[$user->id]["in"];
+                            $result[$user->id]["in"] = $movement->amount + $result[$user->id]["in"];
                         } else {
 
                             $result[$user->id]["in"] = $movement->amount;
@@ -37,7 +37,7 @@ class LogisticsCenterXController extends Controller
                     } else {
                         if (isset($result[$user->id]["out"])) {
 
-                            $result[$user->id]["out"] = $movement->amount +  $result[$user->id]["out"];
+                            $result[$user->id]["out"] = $movement->amount + $result[$user->id]["out"];
                         } else {
 
                             $result[$user->id]["out"] = $movement->amount;
@@ -54,7 +54,7 @@ class LogisticsCenterXController extends Controller
     {
         $logisticsCenter = LogisticsCenter::where("id", $id)->first();
         $result = [];
-        foreach ($logisticsCenter->items as  $item) {
+        foreach ($logisticsCenter->items as $item) {
             $result[$item->id] = $item->name;
         }
 
@@ -67,12 +67,12 @@ class LogisticsCenterXController extends Controller
         $id = $request->id;
 
         $validated = $request->validate([
-            'item1' => 'required',
-            'item2' => 'required',
+            'item1' => 'required|not_in:basic',
+            'item2' => 'required|not_in:basic',
             'from' => 'required|date',
             'to' => 'required|date',
         ]);
-    
+
         $item1 = $validated['item1'];
         $item2 = $validated['item2'];
         $dateFrom = $validated['from'];
@@ -89,7 +89,7 @@ class LogisticsCenterXController extends Controller
             $result = $this->generateReportForUsers($logisticsCenter, $item1, $item2, $dates, $allMovements);
         }
         $items = [];
-        foreach ($logisticsCenter->items as  $item) {
+        foreach ($logisticsCenter->items as $item) {
             $items[$item->id] = $item->name;
         }
 
@@ -101,7 +101,7 @@ class LogisticsCenterXController extends Controller
     private function getDateRange($dateFrom, $dateTo)
     {
         $interval = DateInterval::createFromDateString('1 day');
-        $daterange = new DatePeriod(date_create($dateFrom), $interval, date_add(date_create($dateTo),date_interval_create_from_date_string('1 day')));
+        $daterange = new DatePeriod(date_create($dateFrom), $interval, date_add(date_create($dateTo), date_interval_create_from_date_string('1 day')));
         $dates = [];
         foreach ($daterange as $date) {
             $dates[] = $date->format("Y-m-d");
@@ -132,7 +132,7 @@ class LogisticsCenterXController extends Controller
             $result[$user->user] = $this->calculateMovements($user->movements, $item1, $dates, $allMovements);
         }
 
-        $result["total"] = $this->calculateTotal($result,$dates, $logisticsCenter);
+        $result["total"] = $this->calculateTotal($result, $dates, $logisticsCenter);
         $result["method"] = "users";
         return $result;
     }
@@ -144,7 +144,7 @@ class LogisticsCenterXController extends Controller
         $totalAllAmount = 0;
         $totalMovements = 0;
         $totalAllMovements = 0;
-        
+
         foreach ($dates as $date) {
             $result[$date] = ["amount" => 0, "allAmount" => 0, "movements" => 0, "allMovements" => 0];
             foreach ($movements as $movement) {
@@ -182,14 +182,15 @@ class LogisticsCenterXController extends Controller
         $totalAmount = 0;
         $totalAllAmount = 0;
         $totalMovements = 0;
-        $totalAllMovements = Movement::whereBetween('created_at',[$dates[0], $dates[count($dates)-1]])->where("id_logistics_center",$logisticsCenter->id)->count();
-        $movements = Movement::whereBetween('created_at',[$dates[0], $dates[count($dates)-1]])->where("id_logistics_center",$logisticsCenter->id);
-        foreach ($movements->get() as  $movement) {
+        $totalAllMovements = Movement::whereBetween('created_at', [$dates[0], $dates[count($dates) - 1]])->where("id_logistics_center", $logisticsCenter->id)->count();
+        $movements = Movement::whereBetween('created_at', [$dates[0], $dates[count($dates) - 1]])->where("id_logistics_center", $logisticsCenter->id);
+        foreach ($movements->get() as $movement) {
 
             $totalAllAmount = $movement->amount + $totalAllAmount;
         }
         foreach ($result as $item => $data) {
-            if ($item == "total") continue;
+            if ($item == "total")
+                continue;
             $totalAmount += $data["total"]["amount"];
             $totalMovements += $data["total"]["movements"];
         }

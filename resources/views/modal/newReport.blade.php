@@ -23,7 +23,7 @@
                     <select id="item1" name="item1"
                         class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full"
                         required>
-                        <option selected>Choose parameter 1</option>
+                        <option selected value="basic">Choose parameter 1</option>
                         <option value="in">Inputs</option>
                         <option value="out">Outputs</option>
                         <option value="movement">Movement (sum of both)</option>
@@ -36,7 +36,7 @@
                     <select id="item2" name="item2"
                         class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 w-full"
                         required>
-                        <option selected>Choose parameter 2</option>
+                        <option selected value="basic">Choose parameter 2</option>
                         <option value="allItems">Items (all)</option>
                         @foreach ($items as $key => $item)
                             <option value={{ $key }}>{{ $item }}</option>
