@@ -69,7 +69,6 @@ class LogisticsCenterXController extends Controller
         $item2 = $request->item2;
         $dateFrom = $request->from;
         $dateTo = $request->to;
-        dd($dateTo);
 
         $logisticsCenter = LogisticsCenter::find($id);
         $dates = $this->getDateRange($dateFrom, $dateTo);
@@ -92,6 +91,7 @@ class LogisticsCenterXController extends Controller
 
     private function getDateRange($dateFrom, $dateTo)
     {
+        dd(date_create($dateTo));
         $interval = DateInterval::createFromDateString('1 day');
         $daterange = new DatePeriod(date_create($dateFrom), $interval, date_create($dateTo));
         $dates = [];
