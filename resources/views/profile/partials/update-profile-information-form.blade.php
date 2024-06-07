@@ -20,7 +20,7 @@
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+            <x-input-error class="mt-2" :messages="$errors->get('name')" /> 
         </div>
 
         <div>
@@ -32,6 +32,11 @@
             <x-input-label for="user" :value="__('User')" />
             <x-text-input id="user" name="user" type="text" class="mt-1 block w-full" :value="old('user', $user->user)" required />
             <x-input-error class="mt-2" :messages="$errors->get('user')" />
+        </div>
+        <div>
+            <x-input-label for="organizationName" :value="__('Organization Name')" />
+            <x-text-input id="organizationName" name="organizationName" type="text" class="mt-1 block w-full" :value="old('organizationName', $user->organization->organizationName)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('organizationName')" />
         </div>
 
         <div class="flex items-center gap-4">
