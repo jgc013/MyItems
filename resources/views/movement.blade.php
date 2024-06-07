@@ -42,7 +42,7 @@
     @endif
 
     <x-slot name="slot">
-        <div style="overflow: auto; height: 49rem;">
+        <div style="overflow: auto; height: 48rem;">
 
 
 

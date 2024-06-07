@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
     <x-slot name="slot">
-        <div style="overflow: auto; height: 49rem;">
+        <div style="overflow: auto; height: 48rem;">
             <div class=" gap-4 p-4 w-full">
 
                 <div class=" gap-4 p-4 h-full w-full flex">
