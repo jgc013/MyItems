@@ -65,10 +65,10 @@ class LogisticsCentersController extends Controller
 
         try {
             $request->validate(['name' => 'required|string|max:255']);
-            if (LogisticsCenter::checkDuplicate($request->name)) {
+            if (LogisticsCenter::checkDuplicate(strtolower($request->name))) {
                 throw new Exception("The name has already been taken");
             }
-            LogisticsCenter::newLogisticsCenter($request->name);
+            LogisticsCenter::newLogisticsCenter(strtolower($request->name));
             return redirect()->route('logisticsCenters.list');
         } catch (\Throwable $e) {
             return redirect()->route('logisticsCenters.list')->withErrors([$e->getMessage(), $request->id]);
@@ -88,11 +88,11 @@ class LogisticsCentersController extends Controller
     {
         try {
             $request->validate(['name' => 'required|string|max:255']);
-            if (LogisticsCenter::checkDuplicate($request->name)) {
+            if (LogisticsCenter::checkDuplicate(strtolower($request->name))) {
                 throw new Exception("The name has already been taken");
             }
             $logisticsCenter = LogisticsCenter::where('id', $request->id)->first();
-            $logisticsCenter->name = $request->name;
+            $logisticsCenter->name = strtolower($request->name);
             $logisticsCenter->save();
             return redirect()->route('logisticsCenters.list');
         } catch (\Throwable $e) {

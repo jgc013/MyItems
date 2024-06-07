@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <table
-                        class="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400 h-full w-full rounded-lg"
+                        class="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400 h-full  rounded-lg"
                         id="table">
                         <thead
                             class="text-xs text-gray-700 uppercase bg-gray-100 light:bg-gray-700 light:text-gray-400 rounded-lg">

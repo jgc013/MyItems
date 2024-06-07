@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
         ]);
         $userData = [
             'name' => $request->name,
-            'user' => $request->user,
+            'user' => strtolower($request->user),
             'rol' => "admin",
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -67,7 +67,7 @@ class RegisteredUserController extends Controller
         $idOrganization =  Auth::user()->organization->id;
         $userData = [
             'name' => $request->name,
-            'user' => $request->user,
+            'user' => strtolower($request->user),
             'rol' => "employee",
             'email' => $request->email,
             'password' => Hash::make($request->password),

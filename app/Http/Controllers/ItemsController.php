@@ -74,10 +74,10 @@ class ItemsController extends Controller
     {
         try {
             $request->validate(['name' => 'required|string|max:255']);
-            if (Item::checkDuplicate($request->name)) {
+            if (Item::checkDuplicate(strtolower($request->name))) {
                 throw new Exception("The name has already been taken");
             }
-            Item::newItem($request->name);
+            Item::newItem(strtolower($request->name));
             return redirect()->route('items.list');
         } catch (\Throwable $e) {
 
@@ -104,12 +104,12 @@ class ItemsController extends Controller
             $request->validate(['name' => 'required|string|max:255']);
 
 
-            if (Item::checkDuplicate($request->name)) {
+            if (Item::checkDuplicate(strtolower($request->name))) {
                 throw new Exception("The name has already been taken");
             }
             $item = item::where('id', $request->id)->first();
 
-            $item->name = $request->name;
+            $item->name = strtolower($request->name);
             $item->save();
             return redirect()->route('items.list');
         } catch (\Throwable $e) {
