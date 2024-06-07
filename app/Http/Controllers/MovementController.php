@@ -12,6 +12,7 @@ use App\Models\Item;
 use App\Models\ItemsLogisticsCenters;
 use App\Models\LogisticsCenter;
 use Carbon\Carbon;
+use Exception;
 use Termwind\Components\Dd;
 
 class MovementController extends Controller
@@ -94,8 +95,21 @@ class MovementController extends Controller
             'id_logistics_center' => Auth::user()->logisticsCenter->id,
             'location' =>  $request->location,
         ];
-        Movement::store($movementData);
-        return redirect()->route('movement.list');
+        if(ItemsLogisticsCenters::where("location",$request->location)->first()){
+
+            if (ItemsLogisticsCenters::where("location",$request->location)->first()->id_item == $request->item) {
+                # code...
+                Movement::store($movementData);
+                return redirect()->route('movement.list');
+            }else{
+                throw new Exception("That location is occupied by another item");
+            }
+        }else{
+            Movement::store($movementData);
+            return redirect()->route('movement.list');
+
+        }
+        
     }
     public function delete($id): RedirectResponse
     {
