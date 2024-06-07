@@ -12,8 +12,8 @@
                 @if (Auth::user()->rol == 'admin')
                     <div class="shrink-0 flex items-center pl-6">
                         <a href="{{ route('dashboard.admin') }}">
-                            <h2 class="font-semibold text-xl text-gray-800 leading-tight uppercase">
-                                MyItems: {{ Auth::user()->organization->organizationName }}
+                            <h2 class="font-semibold text-xl text-gray-800 leading-tight ">
+                                MyItems: <span class="uppercase">{{ Auth::user()->organization->organizationName }}</span>
                             </h2>
 
                         </a>
