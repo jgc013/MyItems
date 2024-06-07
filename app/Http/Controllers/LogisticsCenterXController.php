@@ -71,7 +71,8 @@ class LogisticsCenterXController extends Controller
         $dateTo = $request->to;
 
         $logisticsCenter = LogisticsCenter::find($id);
-        $dates = $this->getDateRange($dateFrom, $dateTo);
+        $dates = $this->getDateRange($dateFrom, $dateTo+1);
+        dd($dates);
         $allMovements = $logisticsCenter->movements;
 
         if (is_numeric($item2) || $item2 == "allItems") {
