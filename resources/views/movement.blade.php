@@ -51,7 +51,7 @@
 
 
                     <table
-                        class="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400  w-full"
+                        class=" text-sm text-left rtl:text-right text-gray-500 light:text-gray-400  w-full"
                         id="table">
                         <thead
                             class="text-xs text-gray-700 uppercase bg-gray-100 light:bg-gray-700 light:text-gray-400">

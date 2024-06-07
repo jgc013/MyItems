@@ -37,6 +37,10 @@ class ProfileController extends Controller
         $user = User::find(Auth::user()->id);
         $user->user = $request->user;
         $user->save();
+        if ($request->organizationName) {
+            $user->organization->name = $request->organizationName; 
+            $user->organization->name -> save();
+        }
 
         $request->user()->save();
 
