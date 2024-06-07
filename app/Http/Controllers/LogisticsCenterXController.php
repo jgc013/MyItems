@@ -69,10 +69,10 @@ class LogisticsCenterXController extends Controller
         $item2 = $request->item2;
         $dateFrom = $request->from;
         $dateTo = $request->to;
+        dd($dateTo);
 
         $logisticsCenter = LogisticsCenter::find($id);
-        $dates = $this->getDateRange($dateFrom, $dateTo+1);
-        dd($dates);
+        $dates = $this->getDateRange($dateFrom, $dateTo);
         $allMovements = $logisticsCenter->movements;
 
         if (is_numeric($item2) || $item2 == "allItems") {
