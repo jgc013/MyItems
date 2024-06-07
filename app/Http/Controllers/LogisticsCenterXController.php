@@ -65,10 +65,19 @@ class LogisticsCenterXController extends Controller
     public function createReport(Request $request)
     {
         $id = $request->id;
-        $item1 = $request->item1;
-        $item2 = $request->item2;
-        $dateFrom = $request->from;
-        $dateTo = $request->to;
+
+        $validated = $request->validate([
+            'item1' => 'required',
+            'item2' => 'required',
+            'from' => 'required|date',
+            'to' => 'required|date',
+        ]);
+    
+        $item1 = $validated['item1'];
+        $item2 = $validated['item2'];
+        $dateFrom = $validated['from'];
+        $dateTo = $validated['to'];
+
 
         $logisticsCenter = LogisticsCenter::find($id);
         $dates = $this->getDateRange($dateFrom, $dateTo);
