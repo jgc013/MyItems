@@ -34,7 +34,7 @@
                 @foreach ($items as $key => $item)
                     <div
                         class="p-6 bg-white border border-gray-200 rounded-lg text-center h-40 shadow-xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
-                        <h2 class="text-xl font-semibold">{{ $item['name'] }}</h2>
+                        <h2 class="text-xl font-semibold uppercase">{{ $item['name'] }}</h2>
                 
                 @if (isset($item['amount']))
                     <p class="text-xs">Stock: {{ $item['amount'] }}</p>

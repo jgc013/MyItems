@@ -36,7 +36,7 @@
                     <a href="{{ route('logisticsCenterX.init', ['logisticsCenter' => $key]) }}" type="button">
                         <div
                             class="p-6 bg-white border border-gray-200 rounded-lg text-center h-40 shadow-xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
-                            <h2 class="text-xl font-semibold">{{ $center['name'] }}</h2>
+                            <h2 class="text-xl font-semibold uppercase">{{ $center['name'] }}</h2>
                             @if (isset($center['amount']))
                                 <p class="text-xs">Stock: {{ $center['amount'] }}</p>
                             @else
