@@ -7,7 +7,7 @@
     </x-slot>
 
     <x-slot name="slot">
-        <div  style="overflow: auto; height: 49rem;">
+        <div  style="overflow: auto; height: 48rem;">
 
             @if (isset($result))
                 <div class="flex justify-center pt-2">
@@ -33,7 +33,7 @@
                             </div>
                             <div class=" p-1 bg-white border border-gray-200 rounded-lg h-full w-full shadow-xl ">
                                 <table
-                                    class="w-full text-sm text-left rtl:text-right text-gray-500 light:text-gray-400 h-full w-full">
+                                    class=" text-sm text-left rtl:text-right text-gray-500 light:text-gray-400 h-full w-full">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-100 light:bg-gray-700 light:text-gray-400">
                                         <th scope="col" class="px-6 py-3 text-center uppercase">Date</th>
                                         <th scope="col" class="px-6 py-3 text-center uppercase">Amount Moved</th>
