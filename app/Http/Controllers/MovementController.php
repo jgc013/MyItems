@@ -17,18 +17,18 @@ use Termwind\Components\Dd;
 
 class MovementController extends Controller
 {
-    public function list($logisticsCenter= null)
+    public function list($logisticsCenter = null)
     {
-        $lastMonth= Carbon::now()->subMonth();
+        $lastMonth = Carbon::now()->subMonth();
 
         if (Auth::user()->rol == "employee") {
             $user = Auth::user();
-            $movements =  $user->logisticsCenter->movements;
+            $movements = $user->logisticsCenter->movements;
             $items = $user->organization->item;
             $result = [];
             $i = 0;
             foreach ($movements as $movement) {
-                if($movement->updated_at >= $lastMonth){
+                if ($movement->updated_at >= $lastMonth) {
 
                     if ($movement->type == 'in') {
                         $result[$i]["type"] = "Input";
@@ -37,41 +37,41 @@ class MovementController extends Controller
                     }
                     $result[$i]["name"] = Item::find($movement->id_item)->name;
                     $result[$i]["amount"] = $movement->amount;
-                $result[$i]["updatedAt"] = date('Y-m-d', $movement->updated_at->timestamp);
-                $result[$i]["user"] = User::find($movement->id_user)->user;
-                $result[$i]["id"] = $movement->id;
-                $i++;
-            }
+                    $result[$i]["updatedAt"] = date('Y-m-d', $movement->updated_at->timestamp);
+                    $result[$i]["user"] = User::find($movement->id_user)->user;
+                    $result[$i]["id"] = $movement->id;
+                    $i++;
+                }
             }
 
             return view('movement', [
                 'movements' => $result,
                 'items' => $items,
-                'logisticsCenter' =>$user->logisticsCenter,
+                'logisticsCenter' => $user->logisticsCenter,
                 'view' => "movements"
             ]);
         } else {
             $result = [];
             $i = 0;
             foreach (LogisticsCenter::find($logisticsCenter)->movements as $movement) {
-                if($movement->updated_at >= $lastMonth){
+                if ($movement->updated_at >= $lastMonth) {
 
-                if ($movement->type == 'in') {
-                    $result[$i]["type"] = "Input";
-                } else {
-                    $result[$i]["type"] = "Output";
+                    if ($movement->type == 'in') {
+                        $result[$i]["type"] = "Input";
+                    } else {
+                        $result[$i]["type"] = "Output";
+                    }
+                    $result[$i]["name"] = Item::find($movement->id_item)->name;
+                    $result[$i]["amount"] = $movement->amount;
+                    $result[$i]["updatedAt"] = date('Y-m-d', $movement->updated_at->timestamp);
+                    $result[$i]["user"] = User::find($movement->id_user)->user;
+                    $result[$i]["id"] = $movement->id;
+                    $i++;
                 }
-                $result[$i]["name"] = Item::find($movement->id_item)->name;
-                $result[$i]["amount"] = $movement->amount;
-                $result[$i]["updatedAt"] = date('Y-m-d', $movement->updated_at->timestamp);
-                $result[$i]["user"] = User::find($movement->id_user)->user;
-                $result[$i]["id"] = $movement->id;
-                $i++;
-            }
             }
             return view('movement', [
                 'movements' => $result,
-                'logisticsCenter'=>LogisticsCenter::find($logisticsCenter),
+                'logisticsCenter' => LogisticsCenter::find($logisticsCenter),
                 'view' => "movements"
             ]);
         }
@@ -93,23 +93,27 @@ class MovementController extends Controller
             'id_item' => $request->item,
             'id_user' => Auth::user()->id,
             'id_logistics_center' => Auth::user()->logisticsCenter->id,
-            'location' =>  $request->location,
+            'location' => $request->location,
         ];
-        if(ItemsLogisticsCenters::where("location",$request->location)->first()){
+        try {
+            if (ItemsLogisticsCenters::where("location", $request->location)->first()) {
 
-            if (ItemsLogisticsCenters::where("location",$request->location)->first()->id_item == $request->item) {
-                # code...
+                if (ItemsLogisticsCenters::where("location", $request->location)->first()->id_item == $request->item) {
+                    # code...
+                    Movement::store($movementData);
+                    return redirect()->route('movement.list');
+                } else {
+                    throw new Exception("That location is occupied by another item");
+                }
+            } else {
                 Movement::store($movementData);
                 return redirect()->route('movement.list');
-            }else{
-                throw new Exception("That location is occupied by another item");
-            }
-        }else{
-            Movement::store($movementData);
-            return redirect()->route('movement.list');
 
+            }
+        } catch (\Throwable $e) {
+            return redirect()->route('movement.list')->withErrors([$e->getMessage()]);
         }
-        
+
     }
     public function delete($id): RedirectResponse
     {
