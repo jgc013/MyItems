@@ -38,8 +38,8 @@ class ProfileController extends Controller
         $user->user = $request->user;
         $user->save();
         if ($request->organizationName) {
-            $user->organization->name = $request->organizationName; 
-            $user->organization->name -> save();
+            $user->organization->organizationName = $request->organizationName; 
+            $user->organization-> save();
         }
 
         $request->user()->save();
