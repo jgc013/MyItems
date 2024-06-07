@@ -91,9 +91,8 @@ class LogisticsCenterXController extends Controller
 
     private function getDateRange($dateFrom, $dateTo)
     {
-        dd(date_create($dateTo) + 1);
         $interval = DateInterval::createFromDateString('1 day');
-        $daterange = new DatePeriod(date_create($dateFrom), $interval, date_create($dateTo));
+        $daterange = new DatePeriod(date_create($dateFrom), $interval, date_add(date_create($dateTo),date_interval_create_from_date_string('1 day')));
         $dates = [];
         foreach ($daterange as $date) {
             $dates[] = $date->format("Y-m-d");
