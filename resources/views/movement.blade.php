@@ -56,7 +56,7 @@
                         <thead
                             class="text-xs text-gray-700 uppercase bg-gray-100 light:bg-gray-700 light:text-gray-400">
                             <th scope="col" class="px-6 py-3 text-center uppercase ">Type</th>
-                            <th scope="col" class="px-6 py-3 text-center uppercase">Name</th>
+                            <th scope="col" class="px-6 py-3 text-center uppercase">Item Name</th>
                             <th scope="col" class="px-6 py-3 text-center uppercase">Amount</th>
                             <th scope="col" class="px-6 py-3 text-center uppercase">Registered By</th>
                             <th scope="col" class="px-6 py-3 text-center uppercase">Registered On (Last Month)</th>
