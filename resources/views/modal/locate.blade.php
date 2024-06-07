@@ -33,7 +33,7 @@
                 <x-secondary-button x-on:click="$dispatch('close')">
                     {{ __('Cancel') }}
                 </x-secondary-button>
-                <x-primary-button class="ms-3">{{ __('Create') }}</x-primary-button>
+                <x-primary-button class="ms-3">{{ __('Locate') }}</x-primary-button>
             </div>
         </form>
     </div>
