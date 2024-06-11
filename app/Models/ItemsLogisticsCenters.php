@@ -32,9 +32,9 @@ class ItemsLogisticsCenters extends Model
     {
         try {
 
-            $itemLogisticsCenter =  static::where("id_item", $itemLogisticsCenterData["id_item"])->where("id_logistics_center", $itemLogisticsCenterData["id_logistics_center"])->first();
+            $itemLogisticsCenter =  static::where("id_item", $itemLogisticsCenterData["id_item"])->where("id_logistics_center", $itemLogisticsCenterData["id_logistics_center"])->where("location", $itemLogisticsCenterData["location"])->first();
 
-            if ($itemLogisticsCenter == null || $itemLogisticsCenter->location != $itemLogisticsCenterData["location"]) {
+            if ($itemLogisticsCenter == null) {
                 if ($movementData['type'] == "out") {
                     throw new Exception("There isn’t stock to carry out the requested movement");
                 } else {
@@ -49,10 +49,17 @@ class ItemsLogisticsCenters extends Model
                     if ($itemLogisticsCenter->amount - $itemLogisticsCenterData["amount"] < 0) {
                         throw new Exception("There isn’t stock to carry out the requested movement");
                     } else {
-
+                        $result = $itemLogisticsCenter->amount - $itemLogisticsCenterData["amount"];
                         $itemLogisticsCenter->amount = $itemLogisticsCenter->amount - $itemLogisticsCenterData["amount"];
                         Movement::create($movementData);
-                        $itemLogisticsCenter->save();
+                        
+                        if($result == 0){
+
+                            $itemLogisticsCenter->delete();
+                        }else{
+
+                            $itemLogisticsCenter->save();
+                        }
                     }
                 }
             }
@@ -63,17 +70,35 @@ class ItemsLogisticsCenters extends Model
 
     public static function alterAmount(Movement $movement)
     {
+        try {
+            $itemLogisticsCenter = static::where("id_item", $movement->id_item)->where("id_logistics_center", $movement->id_logistics_center)->where("location", $movement->location)->first();
+            if ($itemLogisticsCenter == null) {
+                $movement->delete();
+            
+            }else{
+                
+                if ($movement->type == "in") {
+                    if ($itemLogisticsCenter->amount - $movement->amount < 0) {
+                        throw new Exception("It isn’t possible to eliminate this movement");
+                    } else {
+    
+                        $itemLogisticsCenter->amount =  $itemLogisticsCenter->amount - $movement->amount;
+                        $movement->delete();
+                    }
+                } elseif ($movement->type == "out") {
+                    $itemLogisticsCenter->amount = $itemLogisticsCenter->amount + $movement->amount;
+                }
+                if ($itemLogisticsCenter->amount == 0) {
+                    $itemLogisticsCenter->delete();
+                    $movement->delete();
+                } else {
+                    $itemLogisticsCenter->save();
+                    $movement->delete();
+                }
+            }
+        } catch (\Throwable $e) {
 
-        $itemLogisticsCenter = static::where("id_item", $movement->id_item)->where("id_logistics_center", $movement->id_logistics_center)->where("location", $movement->location)->first();
-        if ($movement->type == "in") {
-            $itemLogisticsCenter->amount =  $itemLogisticsCenter->amount - $movement->amount;
-        } elseif ($movement->type == "out") {
-            $itemLogisticsCenter->amount = $itemLogisticsCenter->amount + $movement->amount;
-        }
-        if ($itemLogisticsCenter->amount <= 0) {
-            $itemLogisticsCenter->delete();
-        } else {
-            $itemLogisticsCenter->save();
+            return redirect()->route('movement.list')->withErrors([$e->getMessage(), $movement->id]);
         }
     }
 }

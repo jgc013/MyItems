@@ -93,27 +93,30 @@ class MovementController extends Controller
             'id_item' => $request->item,
             'id_user' => Auth::user()->id,
             'id_logistics_center' => Auth::user()->logisticsCenter->id,
-            'location' => $request->location,
+            'location' =>  $request->location,
         ];
-        try {
-            if (ItemsLogisticsCenters::where("location", $request->location)->first()) {
+        if ($request->type == "out") {
+            Movement::store($movementData);
+            return redirect()->route('movement.list');
+        } else {
 
-                if (ItemsLogisticsCenters::where("location", $request->location)->first()->id_item == $request->item) {
-                    # code...
+            try {
+                if (ItemsLogisticsCenters::where("location", $request->location)->first()) {
+
+                    if (ItemsLogisticsCenters::where("location", $request->location)->first()->id_item == $request->item) {
+                        Movement::store($movementData);
+                        return redirect()->route('movement.list');
+                    } else {
+                        throw new Exception("That location is occupied by another item");
+                    }
+                } else {
                     Movement::store($movementData);
                     return redirect()->route('movement.list');
-                } else {
-                    throw new Exception("That location is occupied by another item");
                 }
-            } else {
-                Movement::store($movementData);
-                return redirect()->route('movement.list');
-
+            } catch (\Throwable $e) {
+                return redirect()->route('movement.list')->withErrors([$e->getMessage()]);
             }
-        } catch (\Throwable $e) {
-            return redirect()->route('movement.list')->withErrors([$e->getMessage()]);
         }
-
     }
     public function delete($id): RedirectResponse
     {
@@ -121,7 +124,6 @@ class MovementController extends Controller
         $movement = Movement::find($id);
         ItemsLogisticsCenters::alterAmount($movement);
 
-        $movement->delete();
         return redirect()->route('movement.list');
     }
 }
