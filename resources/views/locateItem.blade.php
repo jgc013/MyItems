@@ -22,7 +22,7 @@
                 <div class=" gap-4 h-full ">
 
                     <div class="flex items-center justify-center h-full bg-white border border-gray-200 rounded-lg shadow-xl"
-                        style="height: 47.4rem">
+                        style="height: 46.3rem">
                         <div class="text-center">
                             <h1 class="text-6xl mb-4">{{ $result['title'] }}</h1>
                             <h2 class="text-6xl mb-4">{{ $result['p'] }}</h2>
