@@ -39,8 +39,8 @@
                     <div class="shrink-0 flex items-center pl-6">
                         <a href="{{ route('movement.list') }}">
                             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                                MyItems: {{ Auth::user()->organization->organizationName }} -
-                                {{ Auth::user()->logisticsCenter->name }}
+                                MyItems: : <span class="uppercase">{{ Auth::user()->organization->organizationName }} -
+                                {{ Auth::user()->logisticsCenter->name }}</span>
                             </h2>
 
                         </a>

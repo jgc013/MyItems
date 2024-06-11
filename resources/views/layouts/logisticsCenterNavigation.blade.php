@@ -6,7 +6,7 @@
 
                 <div class="shrink-0 flex items-center">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                        {{ __('Logistics Center: ') . $logisticsCenter->name }} </h2>
+                        {{ __('Logistics Center: ')}} <span class="uppercase">{{$logisticsCenter->name }}</span> </h2>
                 </div>
 
                 <!-- Navigation Links -->
